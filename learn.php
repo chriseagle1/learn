@@ -1,2 +1,2 @@
 <?php
-echo 'has conflict test' ;
+echo 'you has conflict test' ;
