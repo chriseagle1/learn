@@ -27,7 +27,7 @@ export default createStore({
       state.list.splice(payload, 1)
     },
     resetList(state, payload) {
-      state.list = payload.
+      state.list = payload
     }
   },
   actions: {
