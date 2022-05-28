@@ -1,31 +1,38 @@
 <template>
-    <div v-for="(item, index) in list" :key="index">
-        <div class="task-item">
-            <input type="checkbox" v-model="item.complete"> {{item.title}}
-            <button class="btn" @click="del(item, index)">删除</button>
+    <div v-if="list.length > 0">
+        <div v-for="(item, index) in list" :key="index">
+            <div class="task-item">
+                <input type="checkbox" v-model="item.complete"> {{item.title}}
+                <button class="btn" @click="del(item, index)">删除</button>
+            </div>
         </div>
+    </div>
+    <div class = "emptyList" v-else>
+        暂无任务
     </div>
 </template>
 
 <script>
     import {defineComponent, ref, computed} from 'vue'
-    import { useStore } from 'vuex'
 
     export default defineComponent ({
         name: 'NavMain',
         props: {
-            
+            todoList: {
+                type: Array,
+                required: true
+            }
+        },
+        emits: {
+            delItem: null
         },
         setup(props, ctx) {
-            let store = useStore();
-            
-            let list = computed(() => {
-                return store.state.list
-            })
-
             let del = (item, index) => {
-                store.commit('delTask', index)
+                ctx.emit('delItem', index)
             }
+            let list = computed(() => {
+                return props.todoList
+            })
             
             return {
                 list,
@@ -62,6 +69,10 @@
         button {
             display: block;
         }   
+    }
+    .emptyList {
+        padding-left: 9px;
+        margin: 10px 11px;
     }
     
 </style>

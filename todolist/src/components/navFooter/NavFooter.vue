@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-       <div class="tips">已完成 {{isComplete}} 个/总共 {{all}} 个</div> 
+       <div class="tips">已完成 {{isComplete}} 个/总共 {{list.length}} 个</div> 
        <button v-if="isComplete > 0" @click="clear">清除已完成</button>
     </div>
 </template>
@@ -8,35 +8,34 @@
 <script>
 
     import { defineComponent, ref, computed} from 'vue'
-    import { useStore } from 'vuex'
 
     export default defineComponent({
         name: 'NavFooter',
         props: {
-            
+            todoList: {
+                type: Array,
+                required: true
+            }
         },
         setup(props, ctx) {
-            let store = useStore()
-            let unCompleteList = computed(() => {
-                return store.state.list.filter(item => {
-                    return item.complete == false
-                })
+            let list = computed(() => {
+                return props.todoList
             })
-
-            let all = computed(() => {
-                return store.state.list.length;
-            })
-
+            
             let isComplete = computed(() => {
-                return all.value - unCompleteList.value.length
-            })
+                let arr = props.todoList.filter(item => {
+                    return item.complete === true
+                })
+                return arr.length
+            }) 
 
             let clear = () => {
-                store.commit('resetList', unCompleteList.value)
+                ctx.emit('clearComplete')
             }
+
             return {
+                list,
                 isComplete,
-                all,
                 clear
             }
         }

@@ -1,9 +1,12 @@
 <template>
-    <button @click="start">开始任务</button>
+    <div class="startArea">
+        <button @click="start">开始任务</button>
+    </div>
+    
 </template>
 
 <script>
-    import { defineComponent } from 'vue'
+    import { defineComponent, ref } from 'vue'
     import { useRouter } from 'vue-router'
     export default defineComponent({
         name: 'start',
@@ -11,7 +14,9 @@
             let router = useRouter()
 
             let start = () => {
-                router.push('/home')
+                router.push({
+                    name: 'home',
+                })
             }
 
             return {
@@ -22,5 +27,18 @@
 </script>
 
 <style lang="scss" scoped>
-
+    button {
+        width: 200px;
+        height: 100px;
+        border: 0px;
+    }
+    button:active {
+        color: #4FA9FD;
+        border: 1px solid #4FA9FD
+    }
+    .startArea {
+        margin-top: 100px;
+        display: flex;
+        justify-content: center;
+    }
 </style>
