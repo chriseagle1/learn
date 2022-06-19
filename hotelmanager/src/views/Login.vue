@@ -34,7 +34,9 @@
 </template>
 
 <script>
-    import { reactive, toRefs } from 'vue'
+    import { alertProps } from 'element-plus'
+import { reactive, toRefs } from 'vue'
+import { useRouter } from 'vue-router'
     import {Login} from '../api/AdminLogin'
 
     export default {
@@ -50,9 +52,15 @@
                 
             })
             
-            let login = () => {
+            let $router = useRouter();
+
+            let login = async () => {
                 //rememberMe
-                Login({username: loginParams.userName, password: loginParams.password})
+                let sucess = await Login({username: loginParams.userName, password: loginParams.password})
+
+                if(sucess) {
+                    $router.push('layout');
+                }
             }
 
             return {

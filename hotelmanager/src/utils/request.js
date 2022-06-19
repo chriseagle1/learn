@@ -7,7 +7,7 @@ import 'nprogress/nprogress.css'
 
 const instance = axios.create({
     baseURL: 'https://home.sihaoc.cn',
-    timeout: 3000,
+    timeout: 30000,
     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
   });
 
@@ -42,4 +42,8 @@ instance.interceptors.response.use(function (response) {
       let { data } = await instance.post(url, params)
 
       return data
+  }
+
+  export let $setToken = async () => {
+    instance.defaults.headers.common['token'] = sessionStorage.getItem('token')
   }
